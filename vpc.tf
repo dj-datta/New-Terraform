@@ -51,7 +51,7 @@ resource "aws_route_table_association" "a" {
     subnet_id = aws_subnet.public.id
     route_table_id = aws_route_table.pub-rt.id
 }
-resource "aws_eip","ei"{
+resource "aws_eip" "ei"{
     domain = "vpc"
 }
 resource "aws_nat_gateway" "nat"{
