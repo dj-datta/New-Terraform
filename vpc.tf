@@ -51,6 +51,33 @@ resource "aws_route_table_association" "a" {
     subnet_id = aws_subnet.public.id
     route_table_id = aws_route_table.pub-rt.id
 }
+resource "aws_eip","ei"{
+    domain = "vpc"
+}
+resource "aws_nat_gateway" "nat"{
+    allocation_id = aws_ip.elastic.id
+    subnet_id = aws_subnet.public.id
+
+     tags = {
+        Name = "nat-gw"
+     }
+}
+resource "aws_route_table" "pri-rt" {
+    vpc_id = aws_vpc.virtualcloud.id
+
+    route {
+        cidr_blocks = "0.0.0.0/0"
+        gateway_id = aws_nat_gateway.nat.id
+    }
+    tags = {
+             Name = "private-route"
+    }
+}
+resource "aws_route_table_association" "b" {
+    subnet_id = aws_subnet.private.id
+    route_table_id = aws_route_table.pri-rt.id
+    }
+
 output "vpc_id" {
   value = aws_vpc.vnet.id
 
