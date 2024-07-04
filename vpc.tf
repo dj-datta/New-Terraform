@@ -4,14 +4,14 @@ provider "aws" {
 }
 
 resource "aws_vpc" "virtualcloud" {
-    cidr_blocks = "192.168.0.0/24"
+    cidr_block = "192.168.0.0/24"
     tags = {
         Name = "my-tf-vpc"
     }     
 }
 resource "aws_subnet"  "public" {
     vpc_id = aws_vpc.virtualcloud.id
-    cidr_blocks = "192.168.0.0/22"
+    cidr_block = "192.168.0.0/22"
     availability_zone = "us-east-1a"
     map_public_ip_on_launch = true 
 
@@ -21,7 +21,7 @@ resource "aws_subnet"  "public" {
 }
 resource "aws_subnet" "private" {
     vpc_id = aws_vpc.virtualcloud.id
-    cidr_blocks = "192.168.1.0/24"
+    cidr_block = "192.168.1.0/24"
     availability_zone = "us-east-1b"
 
     tags = {
@@ -40,7 +40,7 @@ resource "aws_route_table" "pub-rt" {
     vpc_id = aws_vpc.virtualcloud.id
 
     route {
-        cidr_blocks = "0.0.0.0/0"
+        cidr_block = "0.0.0.0/0"
         gateway_id = aws_internet_gateway.internet.id
     }
     tags = {
@@ -66,7 +66,7 @@ resource "aws_route_table" "pri-rt" {
     vpc_id = aws_vpc.virtualcloud.id
 
     route {
-        cidr_blocks = "0.0.0.0/0"
+        cidr_block = "0.0.0.0/0"
         gateway_id = aws_nat_gateway.nat.id
     }
     tags = {
