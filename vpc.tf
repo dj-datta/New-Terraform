@@ -79,7 +79,7 @@ resource "aws_route_table_association" "b" {
     }
 
 output "vpc_id" {
-  value = aws_vpc.vnet.id
+  value = aws_vpc.virtualcloud.id
 
 }
   
